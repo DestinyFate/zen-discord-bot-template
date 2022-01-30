@@ -19,5 +19,5 @@ const client = new Client({
   intents
 });
 
-eventHandler(client, __dirname);
-slashCommandHandler(client, __dirname, config.clientId, config.mainGuildId);
+eventHandler(client, __dirname + '\\events');
+slashCommandHandler(client, __dirname + '\\slashCommands', config.clientId, config.mainGuildId);
