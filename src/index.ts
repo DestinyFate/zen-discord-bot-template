@@ -7,8 +7,14 @@ config({
   path: '.env'
 });
 
-const { HOME_GUILD_ID:guildId, DISCORD_CLIENT_ID:clientId } = process.env;
+const { 
+  HOME_GUILD_ID:guildId,
+  DISCORD_CLIENT_ID:clientId ,
+  DISCORD_CLIENT_TOKEN:token
+} = process.env;
+
 const { FLAGS } = Intents;
+
 const intents: BitFieldResolvable<IntentsString, number> = 
   [
     FLAGS.GUILD_MEMBERS,
@@ -20,5 +26,12 @@ const client = new Client({
   intents
 });
 
-eventHandler(client, __dirname);
-slashCommandHandler(client, __dirname, clientId, guildId);
+(async() => {
+  try {
+    await eventHandler(client, __dirname);
+    await client.login(token);
+    await slashCommandHandler(client, __dirname, clientId, guildId);  
+  } catch (err) {
+    throw err;
+  }
+})();
